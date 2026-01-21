@@ -1,3 +1,9 @@
+### Authors
+- Elise LABARRERE
+- Luciano FERREIRA
+- Valentin CIRCOSTA
+- William LE GAVRIAN
+
 # TaskManager
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.5.

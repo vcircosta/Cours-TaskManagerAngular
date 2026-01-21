@@ -5,7 +5,7 @@ import { Observable, tap } from 'rxjs';
 import { Tasks } from '../interfaces/tasks';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class TaskService {
   private httpClient = inject(HttpClient);
