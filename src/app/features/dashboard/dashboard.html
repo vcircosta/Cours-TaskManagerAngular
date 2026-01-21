@@ -1,0 +1,123 @@
+<div class="min-h-[40vh] bg-white p-4 sm:p-8">
+  <div class="max-w-6xl mx-auto space-y-8">
+
+    <div class="space-y-1">
+      <h2 class="text-xl sm:text-2xl text-blue-900 font-bold text-center">
+        Dashboard Analytics
+      </h2>
+      <p class="italic text-blue-900 text-sm text-center">
+        Vue d'ensemble de vos tâches et statistiques
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+
+      @if (isAdmin()) {
+        <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-sm font-medium text-blue-900">Total des tâches</h3>
+            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <p class="text-3xl sm:text-4xl font-bold text-indigo-600">
+              {{ totalTasks() }}
+            </p>
+          </div>
+        </div>
+      }
+
+      <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-medium text-blue-900">Tâches terminées</h3>
+          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="space-y-1">
+          <p class="text-3xl sm:text-4xl font-bold text-green-600">
+            {{ completedTasks() }}
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-medium text-blue-900">Mes tâches</h3>
+          <svg class="w-8 h-8 text-amber-600" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        </div>
+        <div class="space-y-1">
+          <p class="text-3xl sm:text-4xl font-bold text-amber-600">
+            {{ myTasks() }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-blue-900">Progression globale</h3>
+          <span class="text-2xl font-bold text-indigo-600">{{ completionPercentage() }}%</span>
+        </div>
+
+        <div class="relative w-full h-4 bg-slate-200 rounded-full overflow-hidden">
+          <div
+            class="absolute top-0 left-0 h-full bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-full transition-all duration-500 ease-out"
+            [style.width.%]="completionPercentage()"
+          >
+            <div class="absolute inset-0 bg-white/20 animate-pulse"></div>
+          </div>
+        </div>
+
+        <div class="flex justify-between text-sm text-slate-600">
+          <span>{{ completedTasks() }} terminées</span>
+          <span>{{ totalTasks() - completedTasks() }} restantes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+
+      <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-4">Répartition par statut</h3>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-700">À faire (TODO)</span>
+            <span class="text-sm font-semibold text-slate-900">{{ todoTasks() }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-700">En cours (IN_PROGRESS)</span>
+            <span class="text-sm font-semibold text-slate-900">{{ inProgressTasks() }}</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-700">Terminées (DONE)</span>
+            <span class="text-sm font-semibold text-green-600">{{ completedTasks() }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6">
+        <h3 class="text-lg font-semibold text-blue-900 mb-4">Résumé</h3>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 bg-indigo-600 rounded-full mt-1.5"></div>
+            <p class="text-sm text-slate-700">
+              Taux de complétion : <span class="font-semibold">{{ completionPercentage() }}%</span>
+            </p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-2 h-2 bg-amber-600 rounded-full mt-1.5"></div>
+            <p class="text-sm text-slate-700">
+              Mes tâches actives : <span class="font-semibold">{{ myActiveTasks() }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
