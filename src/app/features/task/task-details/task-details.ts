@@ -7,12 +7,14 @@ import {CommentsForm} from '../../comments/comments-form/comments-form';
 import {Comments} from '../../comments/interfaces/comments';
 import {AuthService} from '../../../core/auth/services/auth-service';
 import {CommentsList} from '../../comments/comments-list/comments-list';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
     selector: 'app-task-details',
     standalone: true,
     imports: [
         TaskStatusPipe,
+        UpperCasePipe,
         CommentsForm,
         CommentsList
     ],

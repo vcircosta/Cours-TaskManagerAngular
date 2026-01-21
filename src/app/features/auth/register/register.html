@@ -1,54 +1,83 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Inscription</h2>
-  </div>
-
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-900">Username</label>
-        <div class="mt-2">
-          <input formControlName="username" type="text" 
-                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
-        </div>
-        @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')) {
-          <p class="mt-1 text-xs text-red-600 italic">Le nom d'utilisateur est requis.</p>
-        }
+<div class="min-h-[90vh] bg-gradient-to-br from-blue-50 via-indigo-50 to-white flex items-center justify-center px-6 py-12 lg:px-8">
+  <div class="w-full max-w-md space-y-8">
+    
+    <div class="text-center space-y-4">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white shadow-xl border border-indigo-100 mb-2 animate-pulse">
+        <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+        </svg>
       </div>
+      <h2 class="text-4xl font-extrabold tracking-tight text-indigo-900 drop-shadow-sm">
+        Inscription
+      </h2>
+      <p class="text-indigo-600 font-medium italic">Commencez à organiser vos tâches dès maintenant</p>
+    </div>
 
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-900">Password</label>
-        <div class="mt-2">
-          <input formControlName="password" type="password" 
-                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
-        </div>
-        @if (registerForm.get('password')?.touched) {
-          @if (registerForm.get('password')?.hasError('required')) {
-            <p class="mt-1 text-xs text-red-600 italic">Le mot de passe est requis.</p>
-          } @else if (registerForm.get('password')?.hasError('minlength')) {
-            <p class="mt-1 text-xs text-red-600 italic">6 caractères minimum.</p>
+    <div class="bg-white/80 backdrop-blur-md border border-indigo-100 rounded-[2.5rem] shadow-2xl p-8 sm:p-10 transition-all hover:shadow-indigo-200/50">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <div class="space-y-2">
+          <label for="register-username" class="block text-sm font-bold text-indigo-900 ml-1">Username</label>
+          <div class="relative group">
+            <input id="register-username" formControlName="username" type="text" 
+                   class="block w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all sm:text-sm" 
+                   placeholder="Choisissez un nom d'utilisateur" autocomplete="username" />
+          </div>
+          @if (registerForm.get('username')?.touched && registerForm.get('username')?.hasError('required')) {
+            <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+              Le nom d'utilisateur est requis.
+            </p>
           }
-        }
-      </div>
+        </div>
 
-      <div>
-        <button type="submit" 
-                [disabled]="registerForm.invalid"
-                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 disabled:bg-slate-400">
-          S'inscrire
-        </button>
-      </div>
-    </form>
+        <div class="space-y-2">
+          <label for="register-password" class="block text-sm font-bold text-indigo-900 ml-1">Password</label>
+          <div class="relative group">
+            <input id="register-password" formControlName="password" type="password" 
+                   class="block w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all sm:text-sm" 
+                   placeholder="6 caractères minimum" autocomplete="new-password" />
+          </div>
+          @if (registerForm.get('password')?.touched) {
+            @if (registerForm.get('password')?.hasError('required')) {
+              <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+                Le mot de passe est requis.
+              </p>
+            } @else if (registerForm.get('password')?.hasError('minlength')) {
+              <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+                6 caractères minimum sont nécessaires.
+              </p>
+            }
+          }
+        </div>
 
-    @if (errorMessage()) {
-      <p class="mt-6 text-center text-sm/6 text-red-500 font-medium">
-        {{ errorMessage() }}
+        <div class="pt-2">
+          <button type="submit" 
+                  [disabled]="registerForm.invalid"
+                  class="group relative flex w-full justify-center items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-4 text-sm font-bold text-white shadow-xl transition-all duration-300 hover:from-indigo-500 hover:to-indigo-600 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed disabled:translate-y-0"
+                  aria-label="S'inscrire">
+            <span>Créer mon compte</span>
+            <svg class="w-5 h-5 group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+          </button>
+        </div>
+      </form>
+
+      @if (errorMessage()) {
+        <div class="mt-6 p-4 rounded-2xl bg-red-50 border border-red-100">
+          <p class="text-center text-sm font-bold text-red-600">
+            {{ errorMessage() }}
+          </p>
+        </div>
+      }
+
+      <p class="mt-8 text-center text-sm text-indigo-400 font-medium">
+        Vous avez déjà un compte ?
+        <a routerLink="/login" class="text-indigo-600 font-extrabold hover:text-indigo-500 underline underline-offset-4 decoration-2 transition-colors cursor-pointer" aria-label="Se connecter">
+          Connectez-vous
+        </a>
       </p>
-    }
-
-    <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Déjà un compte ?
-      <a routerLink="/login" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">Se connecter</a>
-    </p>
+    </div>
   </div>
 </div>
