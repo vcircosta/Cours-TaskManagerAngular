@@ -1,6 +1,7 @@
-import { Component, inject, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, inject, Input, input, output} from '@angular/core';
+import {CommonModule, formatDate} from '@angular/common';
 import { AuthService } from '../../../core/auth/services/auth-service';
+import {Comments} from '../interfaces/comments';
 
 @Component({
     selector: 'app-comment-list',
@@ -11,6 +12,5 @@ import { AuthService } from '../../../core/auth/services/auth-service';
 })
 export class CommentsList {
 
-    comments = input.required<Comment[]>();
-
+    @Input() comments: Comments[] = [];
 }
