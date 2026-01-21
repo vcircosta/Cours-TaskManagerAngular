@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TaskService } from '../services/taskService';
 import { Status, Tasks } from '../interfaces/tasks';
@@ -6,14 +6,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TaskStatusPipe } from '../pipe/task-status-pipe';
 import { DatePipe } from '@angular/common';
 
+type TaskFilter = 'ALL' | 'TODO' | 'DONE';
+
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [
-    RouterLink,
-    TaskStatusPipe,
-    DatePipe
-  ],
+  imports: [RouterLink, TaskStatusPipe, DatePipe],
   templateUrl: './task-list.html',
   styleUrl: './task-list.css',
 })
@@ -22,9 +20,29 @@ export class TaskList implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   tasks = signal<Tasks[]>([]);
+  
+  currentFilter = signal<TaskFilter>('ALL');
+
+  filteredTasks = computed(() => {
+    const allTasks = this.tasks();
+    const filter = this.currentFilter();
+
+    switch (filter) {
+      case 'TODO':
+        return allTasks.filter(t => t.status !== Status.DONE);
+      case 'DONE':
+        return allTasks.filter(t => t.status === Status.DONE);
+      default:
+        return allTasks;
+    }
+  });
 
   ngOnInit() {
     this.getTasks();
+  }
+
+  changeFilter(newFilter: TaskFilter) {
+    this.currentFilter.set(newFilter);
   }
 
   getTasks() {
@@ -32,7 +50,7 @@ export class TaskList implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (tasks) => this.tasks.set(tasks),
-        error: () => console.error('Erreur lors de la récupération des tâches')
+        error: () => console.error('Erreur de chargement')
       });
   }
 
