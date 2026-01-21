@@ -1,1 +1,37 @@
-<p>comments-form works!</p>
+<div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="grid gap-2">
+            <label for="comment" class="text-sm font-medium text-blue-900">
+                Ajouter un commentaire
+            </label>
+            <textarea
+                formControlName="message"
+                id="comment"
+                rows="4"
+                placeholder="Écrivez votre commentaire ici..."
+                class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            ></textarea>
+
+            @if (commentForm.get('content')?.invalid && commentForm.get('content')?.touched) {
+                <p class="text-sm text-red-600">Le commentaire ne peut pas être vide</p>
+            }
+        </div>
+
+        <div class="flex items-center justify-end gap-3">
+            <button
+                type="button"
+                (click)="resetForm()"
+                class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+            >
+                Annuler
+            </button>
+            <button
+                type="submit"
+                [disabled]="commentForm.invalid"
+                class="inline-flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed px-4 py-2.5 text-white shadow-sm transition-colors"
+            >
+                Envoyer
+            </button>
+        </div>
+    </form>
+</div>
