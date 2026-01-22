@@ -1,73 +1,90 @@
-<div class="min-h-[40vh] grid place-items-start sm:place-items-center bg-white p-4 sm:p-8">
-  <form [formGroup]="tasksForm" (ngSubmit)="onSubmit()" class="w-full max-w-2xl space-y-6 bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
-    <div class="space-y-1">
-      <h2 class="text-xl sm:text-2xl text-blue-900 font-bold text-center">
+<div class="min-h-[90vh] bg-gradient-to-br from-blue-50 via-indigo-50 to-white flex items-center justify-center px-4 py-12 sm:px-8">
+  <form [formGroup]="tasksForm" (ngSubmit)="onSubmit()" 
+    class="w-full max-w-2xl space-y-8 bg-white/80 backdrop-blur-md border border-indigo-100 rounded-[2.5rem] shadow-2xl p-8 sm:p-12 transition-all hover:shadow-indigo-200/50">
+    
+    <div class="space-y-3 text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-50 mb-2">
+        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+        </svg>
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-indigo-900 tracking-tight">
         @if (id) {
-          Modifier la tâche {{id}}
+          Modifier la tâche #{{id}}
         } @else {
           Créer une tâche
         }
       </h2>
-      <p class="italic text-blue-900 text-sm text-center">Renseignez les informations ci-dessous pour ajouter une nouvelle tâche.</p>
+      <p class="italic text-indigo-500 font-medium">Organisez votre travail en quelques clics.</p>
     </div>
 
-    <!-- Titre -->
-    <div class="grid gap-2">
-      <label for="title" class="text-sm font-medium text-blue-900">Titre</label>
-      <input
-        formControlName="title"
-        type="text"
-        placeholder="Ex. Préparer la réunion"
-        class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        required
-      />
-    </div>
-
-    <!-- Description -->
-    <div class="grid gap-2">
-      <label for="description" class="text-sm font-medium text-blue-900">Description</label>
-      <textarea
-        formControlName="description"
-        rows="4"
-        placeholder="Décrivez la tâche, les objectifs, les contraintes, etc."
-        class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-      ></textarea>
-    </div>
-
-    <!-- Assigner à l'utilisateur -->
-    @if (authService.currentUser()?.role === 'ADMIN') {
+    <div class="space-y-6">
       <div class="grid gap-2">
-        <label for="assignee" class="text-sm font-medium text-blue-900">Assigner à l'utilisateur</label>
-        <select
-          formControlName="targetUserId"
-          class="w-full appearance-none rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-        >
-          <option value="" disabled selected>Sélectionner un utilisateur</option>
-          @for (user of users() ; track user.id) {
-            <option [value]="user.id" > {{ user.username }} </option>
-          }
-        </select>
+        <label for="task-title" class="text-sm font-bold text-indigo-900 ml-1">Titre de la mission</label>
+        <input
+          id="task-title"
+          formControlName="title"
+          type="text"
+          placeholder="Ex. Préparer la réunion client"
+          class="w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm"
+          required
+          aria-label="Titre de la tâche"
+          autocomplete="off"
+        />
       </div>
-    }
 
-    <!-- Actions -->
-    <div class="flex items-center justify-center gap-3 pt-2">
+      <div class="grid gap-2">
+        <label for="task-description" class="text-sm font-bold text-indigo-900 ml-1">Détails & Objectifs</label>
+        <textarea
+          id="task-description"
+          formControlName="description"
+          rows="4"
+          placeholder="Décrivez la tâche, les objectifs, les contraintes..."
+          class="w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm resize-none"
+          aria-label="Description de la tâche"
+        ></textarea>
+      </div>
+
+      @if (authService.currentUser()?.role === 'ADMIN') {
+        <div class="grid gap-2">
+          <label for="assignee" class="text-sm font-bold text-indigo-900 ml-1">Assigner à un collaborateur</label>
+          <div class="relative">
+            <select
+              id="assignee"
+              formControlName="targetUserId"
+              class="w-full appearance-none rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm cursor-pointer"
+              aria-label="Assigner la tâche à l'utilisateur"
+            >
+              <option value="" disabled selected>Sélectionner un utilisateur</option>
+              @for (user of users() ; track user.id) {
+                <option [value]="user.id"> {{ user.username }} </option>
+              }
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-indigo-400">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
       <button
         [routerLink]="['/tasks']"
         type="button"
-        class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+        class="w-full sm:w-auto inline-flex items-center justify-center rounded-2xl border border-indigo-100 px-8 py-3.5 text-indigo-600 font-bold bg-white hover:bg-indigo-50 transition-all duration-200"
       >
         Annuler
       </button>
       <button
         type="submit"
-        class="inline-flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 px-4 py-2.5 text-white shadow-sm transition-colors"
+        [disabled]="tasksForm.invalid"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-8 py-3.5 text-white font-bold shadow-xl shadow-indigo-200 transition-all duration-300 hover:from-indigo-500 hover:to-indigo-600 hover:-translate-y-1 disabled:from-slate-400 disabled:to-slate-500 disabled:shadow-none disabled:translate-y-0"
       >
-        @if (id) {
-          Mettre à jour
-        } @else {
-          Créer une tâche
-        }
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        @if (id) { Mettre à jour } @else { Créer la tâche }
       </button>
     </div>
   </form>

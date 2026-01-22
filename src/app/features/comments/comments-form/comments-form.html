@@ -1,15 +1,16 @@
 <div class="bg-blue-50 backdrop-blur border border-slate-200 rounded-2xl shadow-sm p-6 sm:p-8">
     <form [formGroup]="commentForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div class="grid gap-2">
-            <label for="comment" class="text-sm font-medium text-blue-900">
+            <label for="comment-message" class="text-sm font-medium text-blue-900">
                 Ajouter un commentaire
             </label>
             <textarea
+                id="comment-message"
                 formControlName="message"
-                id="comment"
                 rows="4"
                 placeholder="Écrivez votre commentaire ici..."
-                class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-slate-900 placeholder-slate-400 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+                aria-label="Message du commentaire"
             ></textarea>
 
             @if (commentForm.get('message')?.invalid && commentForm.get('message')?.touched) {
@@ -21,14 +22,16 @@
             <button
                 type="button"
                 (click)="resetForm()"
-                class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-slate-700 bg-white hover:bg-slate-50 transition-colors"
+                class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-4 py-2.5 text-slate-700 bg-white hover:bg-slate-50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+                aria-label="Annuler le commentaire"
             >
                 Annuler
             </button>
             <button
                 type="submit"
                 [disabled]="commentForm.invalid"
-                class="inline-flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed px-4 py-2.5 text-white shadow-sm transition-colors"
+                class="inline-flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed px-4 py-2.5 text-white shadow-sm transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 focus-visible:ring-offset-2"
+                aria-label="Envoyer le commentaire"
             >
                 Envoyer
             </button>

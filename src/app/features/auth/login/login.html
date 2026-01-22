@@ -1,54 +1,81 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connexion</h2>
-  </div>
+<div class="min-h-[90vh] bg-gradient-to-br from-blue-50 via-indigo-50 to-white flex items-center justify-center px-6 py-12 lg:px-8">
+  <div class="w-full max-w-md space-y-8">
+    
+    <div class="text-center space-y-4">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-white shadow-xl border border-indigo-100 mb-2 animate-pulse">
+        <svg class="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </svg>
+      </div>
+      <h2 class="text-4xl font-extrabold tracking-tight text-indigo-900 drop-shadow-sm">
+        Connexion
+      </h2>
+      <p class="text-indigo-600 font-medium italic">Heureux de vous revoir !</p>
+    </div>
 
-  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
-      <div>
-        <label class="block text-sm/6 font-medium text-gray-900">Username</label>
-        <div class="mt-2">
-          <input formControlName="username" type="text" 
-                 [class.ring-red-500]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
-                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
-        </div>
+    <div class="bg-white/80 backdrop-blur-md border border-indigo-100 rounded-[2.5rem] shadow-2xl p-8 sm:p-10 transition-all hover:shadow-indigo-200/50">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
         
-        @if (loginForm.get('username')?.touched && loginForm.get('username')?.hasError('required')) {
-          <p class="mt-1 text-xs text-red-600">Le nom d'utilisateur est requis.</p>
-        }
-      </div>
-
-      <div>
-        <div class="flex items-center justify-between">
-          <label class="block text-sm/6 font-medium text-gray-900">Password</label>
-        </div>
-        <div class="mt-2">
-          <input formControlName="password" type="password" 
-                 [class.ring-red-500]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-                 class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 outline-gray-300 focus:outline-indigo-600 sm:text-sm/6" />
-        </div>
-
-        @if (loginForm.get('password')?.touched) {
-          @if (loginForm.get('password')?.hasError('required')) {
-            <p class="mt-1 text-xs text-red-600">Le mot de passe est requis.</p>
-          } @else if (loginForm.get('password')?.hasError('minlength')) {
-            <p class="mt-1 text-xs text-red-600">Le mot de passe doit faire au moins 6 caractères.</p>
+        <div class="space-y-2">
+          <label for="login-username" class="block text-sm font-bold text-indigo-900 ml-1">Username</label>
+          <div class="relative group">
+            <input id="login-username" formControlName="username" type="text" 
+                   [class.border-red-400]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+                   class="block w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all sm:text-sm" 
+                   placeholder="Votre nom d'utilisateur" autocomplete="username" />
+          </div>
+          
+          @if (loginForm.get('username')?.touched && loginForm.get('username')?.hasError('required')) {
+            <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+              Le nom d'utilisateur est requis.
+            </p>
           }
-        }
-      </div>
+        </div>
 
-      <div>
-        <button type="submit" 
-                [disabled]="loginForm.invalid"
-                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 disabled:bg-gray-400">
-          Sign in
-        </button>
-      </div>
-    </form>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between ml-1">
+            <label for="login-password" class="block text-sm font-bold text-indigo-900">Password</label>
+          </div>
+          <div class="relative group">
+            <input id="login-password" formControlName="password" type="password" 
+                   [class.border-red-400]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                   class="block w-full rounded-2xl border-indigo-100 bg-indigo-50/30 px-4 py-3 text-indigo-900 placeholder-indigo-300 outline-none ring-2 ring-transparent focus:ring-indigo-500/20 focus:border-indigo-500 transition-all sm:text-sm" 
+                   placeholder="••••••••" autocomplete="current-password" />
+          </div>
 
-    <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Pas encore inscrit ?
-      <a routerLink="/register" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">S'inscrire</a>
-    </p>
+          @if (loginForm.get('password')?.touched) {
+            @if (loginForm.get('password')?.hasError('required')) {
+              <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+                Le mot de passe est requis.
+              </p>
+            } @else if (loginForm.get('password')?.hasError('minlength')) {
+              <p class="mt-1 text-xs font-medium text-red-500 flex items-center gap-1">
+                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"/></svg>
+                6 caractères minimum sont nécessaires.
+              </p>
+            }
+          }
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" 
+            [disabled]="loginForm.invalid"
+            class="group relative flex w-full justify-center items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-4 text-sm font-bold text-white shadow-xl transition-all duration-300 hover:from-indigo-500 hover:to-indigo-600 hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 disabled:from-slate-400 disabled:to-slate-500 disabled:cursor-not-allowed disabled:translate-y-0"
+            aria-label="Connexion">
+            <span>Accéder à mon espace</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-8 text-center text-sm text-indigo-400 font-medium">
+        Pas encore parmi nous ?
+        <a routerLink="/register" class="text-indigo-600 font-extrabold hover:text-indigo-500 underline underline-offset-4 decoration-2 transition-colors cursor-pointer" aria-label="S'inscrire">
+          Créer un compte
+        </a>
+      </p>
+    </div>
   </div>
 </div>

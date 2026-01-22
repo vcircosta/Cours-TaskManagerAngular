@@ -6,7 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TaskStatusPipe } from '../pipe/task-status-pipe';
 import { DatePipe } from '@angular/common';
 
-type TaskFilter = 'ALL' | 'TODO' | 'DONE';
+type TaskFilter = 'ALL' | 'TODO' | 'IN_PROGRESS' | 'DONE';
 
 @Component({
   selector: 'app-task-list',
@@ -29,7 +29,9 @@ export class TaskList implements OnInit {
 
     switch (filter) {
       case 'TODO':
-        return allTasks.filter(t => t.status !== Status.DONE);
+        return allTasks.filter(t => t.status === Status.PENDING);
+      case 'IN_PROGRESS':
+        return allTasks.filter(t => t.status === Status.IN_PROGRESS);
       case 'DONE':
         return allTasks.filter(t => t.status === Status.DONE);
       default:
